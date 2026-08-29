@@ -44,4 +44,4 @@ FROM dual;
 ```
 
 ## 📌 Qeyd
-Vergi və ayırma dərəcələri 2026-cı il qaydalarına və skriptdə həyata keçirilən özəl (`ozel`) və dövlət (`dovlet`) sektor məntiqinə əsaslanır. Qanunvericilikdə dəyişiklik olarsa, pilləkan və dərəcələri uyğunlaşdırın.
+Vergi və ayırma dərəcələri 2026-cı il qaydalarına və skriptdə həyata keçirilən özəl (`ozel`) və dövlət (`dovlet`) sektor məntiqinə əsaslanır.
