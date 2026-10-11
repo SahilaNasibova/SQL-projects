@@ -1,47 +1,49 @@
-# Əmək Haqqı və Əlavə İş Saatlarının Hesablanması (Oracle SQL/PLSQL)
+# Salary and Overtime Pay Calculation (Oracle SQL/PLSQL)
 
-Bu layihə iş təqvimi, sektora görə vergi qaydaları və sosial ayırma dərəcələri əsasında xalis əmək haqqını və əlavə iş saatlarına görə ödənişi hesablayan Oracle PL/SQL həllidir.
+This project is an Oracle PL/SQL solution designed to calculate net salary and overtime pay based on the work calendar, sector-specific tax rules, and social insurance contribution rates.
 
-## 📁 Layihədə Nə Var
+## 📁 Project Contents
 
-### 1. İş Təqvimi (Work Calendar)
-2026-cı il üçün doldurulmuş `work_calendar` cədvəli:
-- İş günü / həftəsonu işarələri
-- Bayram və qeyri-iş günləri
-- Qısa (bayram öncəsi) iş günləri
-- Hər tarix üzrə gündəlik iş saatları
+### 1. Work Calendar
+The `work_calendar` table contains data for the year 2026, including:
+- Working days and weekends
+- Public holidays and non-working days
+- Shortened working days (before public holidays)
+- Daily working hours for each date
 
-### 2. Xalis Əmək Haqqı Funksiyası — `calculate_net_salary`
-Ümumi əmək haqqından (brutto) xalis əmək haqqını hesablayır:
-- **Sektor** (`ozel` – özəl / `dovlet` – dövlət)
-- Mütərəqqi gəlir vergisi pilləkanı
-- Sosial sığorta, işsizlikdən sığorta, icbari tibbi sığorta
-- Könüllü həmkarlar ittifaqı haqqı (union fee)
-- Vergi güzəşti (tax relief) çıxılması
+### 2. Net Salary Function — `calculate_net_salary`
+Calculates net salary from gross salary based on:
+- **Sector** (`ozel` – private / `dovlet` – public)
+- Progressive income tax brackets
+- Social insurance, unemployment insurance, and mandatory health insurance contributions
+- Optional trade union membership fees
+- Tax relief deductions
 
-### 3. Əlavə İş Saatları Funksiyası — `calculate_overtime_salary`
-Verilmiş ay üçün ümumi ödənişi (xalis əmək haqqı + əlavə iş saatları) hesablayır:
-- `calculate_net_salary` vasitəsilə xalis əmək haqqını hesablayır
-- `work_calendar`-dan aylıq iş saatlarını cəmləyir
-- Saatlıq dərəcəni və əlavə iş saatı ödənişini (2 qat) hesablayır
+### 3. Overtime Pay Function — `calculate_overtime_salary`
+Calculates total monthly pay (net salary + overtime pay):
+- Calculates net salary using `calculate_net_salary`
+- Retrieves total monthly working hours from `work_calendar`
+- Calculates the hourly pay rate and overtime compensation at double the hourly rate (2×)
 
-## 🛠 Texnologiya
-- Oracle SQL / PL SQL
-- Təqvim yaratmaq üçün sequence-lər, funksiyalar, `CONNECT BY`
+## 🛠 Technologies
+- Oracle SQL / PL/SQL
+- Sequences, functions, and `CONNECT BY` for calendar generation
 
-## ▶️ İstifadə Nümunəsi
+## ▶️ Usage Example
+
 ```sql
 SELECT calculate_overtime_salary(
-    11,        -- gün
-    3,         -- ay
-    2026,      -- il
-    10000,     -- brutto əmək haqqı
-    5,         -- əlavə iş saatı
-    'dovlet',  -- sektor
-    0          -- həmkarlar ittifaqı haqqı
+    11,        -- Day
+    3,         -- Month
+    2026,      -- Year
+    10000,     -- Gross salary
+    5,         -- Overtime hours
+    'dovlet',  -- Sector
+    0          -- Trade union fee
 ) AS total_salary
 FROM dual;
 ```
 
-## 📌 Qeyd
-Vergi və ayırma dərəcələri 2026-cı il qaydalarına və skriptdə həyata keçirilən özəl (`ozel`) və dövlət (`dovlet`) sektor məntiqinə əsaslanır.
+## 📌 Note
+
+Tax and contribution rates are based on the 2026 regulations and the sector-specific logic implemented in the script for private (`ozel`) and public (`dovlet`) sectors.
